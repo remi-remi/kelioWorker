@@ -1,0 +1,116 @@
+Here's a complete and clean `README.md` written in English, based on your architecture and usage context.
+
+---
+
+   ```markdown
+# integrable-plugin
+
+This project follows a **modular, layered architecture** designed for internal tools and services – not for direct human interaction (CLI or UI), but for being used by other systems, such as APIs, schedulers, or workers.
+
+The goal is clarity, testability, reuse, and separation of concerns. Each layer has a precise role, and the architecture is structured to allow safe refactoring, scaling, and debugging.
+
+---
+
+## 🌲 Project Structure
+
+```
+
+      .
+├── autoScenario.js             # Manual scenario runner for development
+├── index.js                   # Entrypoint(typically empty or minimal)
+├── eslint.config.js           # Linting rules
+├── jsconfig.json              # Optional IntelliSense support
+├── package.json               # Project config
+└── src /
+ ├── db /                    # Query builders(Knex), not executed
+ ├── lib /                   # Pure, reusable utility functions
+ ├── services /              # Project - specific reusable logic
+ ├── soap /                  # Raw SOAP request builders(return XML)
+ └── useCases /              # High - level features and orchestration
+
+   ````
+
+---
+
+## 🧱 Layer Responsibilities
+
+### `src/soap/`
+   - Contains logic to build and send ** SOAP requests **.
+- Returns raw XML with no filtering or transformation.
+- This is the lowest level of interaction with external SOAP API.
+
+### `src/services/`
+   - Contains ** project - specific logic ** that is still reusable across useCases.
+- Functions are as ** pure ** as possible(no side - effects, no I / O).
+- Good place for transforming or filtering SOAP responses.
+
+### `src/lib/`
+   - Contains ** generic, reusable ** functions across projects.
+- These are pure helpers(date parsing, formatting, string logic, etc).
+- Nothing in here should depend on this specific project.
+
+### `src/db/`
+   - Contains ** Knex query builders ** for each table or SQL source.
+- These builders do ** not execute ** the queries.
+- This allows combining, modifying, and safely composing queries.
+
+### `src/useCases/`
+   - Each file implements a ** full, high - level use case**.
+- These are the entrypoints for calling business logic.
+- Designed to be called from outside(e.g., via an API or scheduler).
+- A useCase can use`soap`, `services`, `db`, and`lib`.
+
+---
+
+## 🧪 Testing + CLI Prototyping
+
+### `autoScenario.js`
+
+This file allows you to ** run sequences of use cases manually **, without deploying or wiring up a full API.It serves as a ** manual test harness **.
+
+You can run it using:
+
+```bash
+npm runByYourself
+````
+
+*(This script should be added to your `package.json` as a custom npm command.)*
+
+This pattern is useful when you're prototyping or debugging workflows without relying on interactive input.
+
+---
+
+## 📦 Naming Conventions
+
+* Folder and filenames use **camelCase** or **kebab-case**.
+* Folder names are **plural** when they represent collections of utilities (`services`, `useCases`, `lib`), and **singular** when representing concepts (`soap`, `db`).
+
+---
+
+## 🧠 Key Principles
+
+* Each layer has a **clear contract** and minimal responsibilities.
+* Side-effects are pushed to the edges (`useCases` and `soap`).
+* Internals are designed to be **testable**, **composable**, and **debuggable**.
+* Promises are **not auto-resolved** at the `db` layer to allow flexibility.
+* The architecture is designed for **tools used by other tools** (e.g., workers, schedulers, background services).
+
+---
+
+## 📘 Suggested Enhancements (Optional)
+
+* `types / `: For centralizing shared schemas or validation logic
+* `cache / `: If you implement local or in-memory caching strategies
+* `tests / `: For adding unit or integration tests with mocks
+
+---
+
+## 🏁 Summary
+
+This architecture is ideal for building **internal services**, **background jobs**, or **integrable plugins** with clean boundaries between layers. You can use this as a base for other automation-oriented Node.js projects.
+
+```
+
+Let me know if you want me to generate the matching `package.json` with the`runByYourself` script and a basic`.gitignore`, or anything else to complete the template.
+```
+
