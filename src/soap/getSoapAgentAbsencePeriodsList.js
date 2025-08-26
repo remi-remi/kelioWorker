@@ -24,6 +24,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 export const getSoapAgentAbsencePeriodsList = async function () {
    try {
       console.time("SOAP request duration");
+
       const res = await fetch(process.env.SOAP_URL, {
          method: "POST",
          headers: {
@@ -36,6 +37,7 @@ export const getSoapAgentAbsencePeriodsList = async function () {
       const xml = await res.text();
       console.table(xml)
       console.timeEnd("SOAP request duration");
+      return (xml)
 
    } catch (err) {
       console.error("Error fetching absences:", err);
