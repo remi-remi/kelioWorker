@@ -1,5 +1,6 @@
 import xml2js from "xml2js";
 
+import formatUtcDateToSqlDate from '../../../../utils/formatUtcDateToSqlDate.js'
 
 /**
 * Parses raw SOAP XML from Kelio into a cleaned JS object format
@@ -15,14 +16,12 @@ export async function parseXmlAgentAbsencePeriodsListToJs(xml) {
    const periods =
       parsed["soap:Envelope"]?.["soap:Body"]?.["ns1:exportAbsencePeriodsListResponse"]?.["ns1:exportedAbsencePeriods"]?.["ns1:AbsencePeriod"] || [];
 
-
    const periodArray = Array.isArray(periods) ? periods : [periods];
-   const extractionDate = new Date().toISOString();
-
+   const extractionDate = formatUtcDateToSqlDate(new Date().toISOString())
 
    return periodArray.map((p) => ({
       extractionDate,
-      lastName: "XXX",
+      lastName: p["ns1:employeeSurname"],
       firstName: p["ns1:employeeFirstName"],
       kelioId: parseInt(p["ns1:employeeKey"], 10),
       date: p["ns1:date"],
