@@ -7,7 +7,7 @@ configDotenv({ path: './.env' })
 
 export const kelioPluginSheduler = async () => {
 
-   cron.schedule('0 0 */1 * *', () => {
+   cron.schedule('0 */1 * * *', () => {
       console.log('(K) CRON RELAUNCH (1 hour)')
       triggerUpdateOfAllAgentAbsences()
    })
