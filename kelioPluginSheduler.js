@@ -7,10 +7,16 @@ configDotenv({ path: './.env' })
 
 export const kelioPluginSheduler = async () => {
 
-   cron.schedule('0 */1 * * *', () => {
-      console.log('(K) CRON RELAUNCH (1 hour)')
+   console.log("node cron schedule now")
+   cron.schedule('0 * * * *', () => {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+
+      console.log(`(k) > ${hours}:${minutes} triggerUpdateOfAllAgentAbsences() `);
       triggerUpdateOfAllAgentAbsences()
    })
 
 }
+kelioPluginSheduler()
 
