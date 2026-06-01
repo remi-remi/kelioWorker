@@ -1,23 +1,22 @@
 import fetch from "node-fetch";
 
-const OFFSET_RANGE = 90;
+const OFFSET_RANGE = 10;
 
 const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ech="http://echange.service.open.bodet.com">
    <soapenv:Header/>
    <soapenv:Body>
-      <ech:exportAbsencePeriodsList>
+      <ech:exportAbsenceFilesList>
          <ech:exportFilter>
             <ech:AskedAbsence>
-               <ech:populationFilter>AMIE</ech:populationFilter>
                <ech:populationMode>0</ech:populationMode>
                <ech:limitedToAPeriod>false</ech:limitedToAPeriod>
                <ech:dateMode>1</ech:dateMode>
-               <ech:startOffset>0</ech:startOffset>
+               <ech:startOffset>-4</ech:startOffset>
                <ech:endOffset>${OFFSET_RANGE}</ech:endOffset>
             </ech:AskedAbsence>
          </ech:exportFilter>
-      </ech:exportAbsencePeriodsList>
+      </ech:exportAbsenceFilesList>
    </soapenv:Body>
 </soapenv:Envelope>`;
 

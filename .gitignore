@@ -11,6 +11,9 @@ agent.json
 logs
 *.log
 npm-debug.log*
+# project specific  
+# WIDE API request simulation 
+*_sim* 
 
 # Dependency directories
 node_modules/
