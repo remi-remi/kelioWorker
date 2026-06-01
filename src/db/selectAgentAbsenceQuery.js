@@ -1,6 +1,6 @@
-import { knex } from '../../../../utils/importKnex.js'
+import { db } from '../../../../utils/importKnex.js'
 
 export const selectAgentAbsenceQuery = () => {
-   return knex('agent_absence_period').select();
+   return db('agent_absence_period').select();
 };
 

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noImplicitAny": false,
+
+    "strict": true,
+
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+
+    "rootDir": ".",
+
+   "paths": {
+      "@/*": ["./src/*"]
+   },
+
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
+
