@@ -5,13 +5,13 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "kelioPluginSheduler.js",
+  "main": "kelioworker",
   "scripts": {
     "tsc": "tsc --noEmit --watch",
     "build": "tsc && tsc-alias",
-    "start": "node dist/main.js",
-    "dev": "concurrently -k -n A,T -c cyan,magenta \"tsx watch autoScenario\" \"tsc --noEmit --watch\"",
-    "runByYourself": "nodemon autoScenario.js"
+    "start": "node dist/src/main.js",
+    "dev": "concurrently -k -n A,T -c cyan,magenta \"tsx watch src/main\" \"tsc --noEmit --watch\"",
+    "sandbox": "concurrently -k -n A,T -c cyan,magenta \"tsx watch src/autoScenario\" \"tsc --noEmit --watch\""
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
@@ -32,8 +32,12 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "date-fns": "^4.4.0",
     "dotenv": "^17.2.1",
     "humps": "^2.0.1",
+    "knew": "^0.0.0",
+    "knex": "^3.2.10",
+    "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
     "typebox": "^1.1.39",

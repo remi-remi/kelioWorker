@@ -1,7 +1,7 @@
 import cron from 'node-cron'
 import { configDotenv } from 'dotenv'
 
-import { triggerUpdateOfAllAgentAbsences } from './src/useCases/triggerUpdateOfAllAgentAbsences.js'
+import { triggerUpdateOfAllAgentAbsences } from '@/useCases/triggerUpdateOfAllAgentAbsences'
 
 configDotenv({ path: './.env' })
 

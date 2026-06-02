@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const EXEC_PATH = dirname(fileURLToPath(import.meta.url));
 
-const ENVIRONMENT_PATH = `${EXEC_PATH}/../../.env`
+const ENVIRONMENT_PATH = `${EXEC_PATH}/../../../ENVIRONMENT/.env.kelioWorker`
 console.log(`ENVIRONMENT_PATH: ${ENVIRONMENT_PATH}`)
 
 dotenv.config({ path: ENVIRONMENT_PATH });
@@ -15,8 +15,10 @@ const requiredEnvVars = [
    'MYSQL_USER',
    'MYSQL_PASSWORD',
    'MYSQL_DATABASE',
-   'LOG_DESTINATION',
-];
+   'SOAP_URL',
+   'SOAP_USERNAME',
+   'SOAP_PASSWORD',
+]
 
 let allEnvVarsSet = true;
 requiredEnvVars.forEach((envVar) => {
