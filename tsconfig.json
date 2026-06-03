@@ -12,6 +12,7 @@
     "skipLibCheck": true,
 
     "rootDir": ".",
+    "outDir": "dist",
 
    "paths": {
       "@/*": ["./src/*"]
