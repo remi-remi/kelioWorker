@@ -1,13 +1,13 @@
-import { toAbsenceFileDto } from '@/type/AbsenceFile.dto'
-import { AbsenceFileSchema } from '@/type/AbsenceFile'
-import { getSoapAgentAbsencePeriodsList } from '@/soap/getSoapAgentAbsencePeriodsList'
-import { rejectListElementByShema } from '@/services/rejectListElementByShema'
-import { parseAbsenceFileFromXml } from '@/services/parseAbsenceFileFromXml'
-import { removeColonPrefixFromXmlString } from '@/lib/removeColonPrefixFromXmlString'
-import { logger } from '@/lib/logger'
-import { truncateAgentAbsenceFileQuery } from '@/db/truncateAgentAbsenceFileQuery'
-import { insertAgentAbsenceFileQuery } from '@/db/insertAgentAbsenceFileQuery'
-import { errorToString } from '@/lib/errorToString'
+import { insertAgentAbsenceFileQuery } from "@/db/insertAgentAbsenceFileQuery.js"
+import { truncateAgentAbsenceFileQuery } from "@/db/truncateAgentAbsenceFileQuery.js"
+import { errorToString } from "@/lib/errorToString.js"
+import { logger } from "@/lib/logger.js"
+import { removeColonPrefixFromXmlString } from "@/lib/removeColonPrefixFromXmlString.js"
+import { parseAbsenceFileFromXml } from "@/services/parseAbsenceFileFromXml.js"
+import { rejectListElementByShema } from "@/services/rejectListElementByShema.js"
+import { getSoapAgentAbsencePeriodsList } from "@/soap/getSoapAgentAbsencePeriodsList.js"
+import { toAbsenceFileDto } from "@/type/AbsenceFile.dto.js"
+import { AbsenceFileSchema } from "@/type/AbsenceFile.js"
 
 let xmlWithPrefix: string
 let xml: string

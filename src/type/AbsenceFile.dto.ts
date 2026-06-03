@@ -1,5 +1,5 @@
 import { Type, Static } from 'typebox'
-import { AbsenceFile } from './AbsenceFile'
+import { AbsenceFile } from './AbsenceFile.js'
 
 export const AbsenceFileDtoSchema = Type.Object({
    id: Type.Number(),

@@ -1,5 +1,5 @@
-import { AbsenceFileDto } from "@/type/AbsenceFile.dto";
-import { db } from "@/utils/knexInstance";
+import { AbsenceFileDto } from "@/type/AbsenceFile.dto.js";
+import { db } from "@/utils/knexInstance.js";
 import humps from "humps";
 
 export const insertAgentAbsenceFileQuery = (camelData: AbsenceFileDto[]) => {

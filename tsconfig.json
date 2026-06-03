@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "nodeNext",
+    "moduleResolution": "nodeNext",
     "noImplicitAny": false,
 
     "strict": true,
@@ -16,10 +16,9 @@
 
    "paths": {
       "@/*": ["./src/*"]
-   },
+   }
 
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*","knexfile.js"],
   "exclude": ["node_modules"]
 }
-

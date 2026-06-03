@@ -1,4 +1,4 @@
-import { logger } from '@/lib/logger';
+import { logger } from '@/lib/logger.js';
 import { TObject, Static } from 'typebox';
 import { TLocalizedValidationError } from 'typebox/error';
 import { Value } from 'typebox/value';

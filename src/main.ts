@@ -1,9 +1,9 @@
 import cron from 'node-cron'
-import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences'
-import { sendMailToMaintainer } from './services/sendMailToMaintainer'
-import { errorToString } from './lib/errorToString'
 
-import '@/utils/env'
+import '@/utils/env.js'
+import { errorToString } from './lib/errorToString.js'
+import { sendMailToMaintainer } from './services/sendMailToMaintainer.js'
+import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences.js'
 
 const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
    try {

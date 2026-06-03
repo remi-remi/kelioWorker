@@ -1,5 +1,5 @@
 import { configDotenv } from 'dotenv'
-import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences'
+import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences.js'
 configDotenv({ path: '../ENVIRONMENT/.env.kelioWorker' })
 
 console.log("LAUNCH -----------------------------------------------------------------------------------------------------------------------")
