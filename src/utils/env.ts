@@ -18,6 +18,8 @@ const requiredEnvVars = [
    'SOAP_URL',
    'SOAP_USERNAME',
    'SOAP_PASSWORD',
+   'BREVO_API_KEY',
+   'MAINTAINER_EMAIL',
 ]
 
 let allEnvVarsSet = true;

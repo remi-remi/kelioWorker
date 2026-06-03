@@ -32,11 +32,13 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.4",
     "date-fns": "^4.4.0",
     "dotenv": "^17.2.1",
     "humps": "^2.0.1",
     "knew": "^0.0.0",
     "knex": "^3.2.10",
+    "mysql": "^2.18.1",
     "node-cron": "^4.2.1",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",

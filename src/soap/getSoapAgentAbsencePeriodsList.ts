@@ -1,6 +1,7 @@
+import { logger } from "@/lib/logger";
 import fetch from "node-fetch";
 
-const OFFSET_RANGE = 90;
+const OFFSET_RANGE = 60;
 
 const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ech="http://echange.service.open.bodet.com">
@@ -12,7 +13,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
                <ech:populationMode>0</ech:populationMode>
                <ech:limitedToAPeriod>false</ech:limitedToAPeriod>
                <ech:dateMode>1</ech:dateMode>
-               <ech:startOffset>0</ech:startOffset>
+               <ech:startOffset>'windown 11 in action'</ech:startOffset>
                <ech:endOffset>${OFFSET_RANGE}</ech:endOffset>
             </ech:AskedAbsence>
          </ech:exportFilter>
@@ -22,7 +23,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 
 export const getSoapAgentAbsencePeriodsList = async function () {
    console.time("SOAP request duration");
-   console.log(`launch soap on :${process.env.SOAP_URL}`);
+   logger.debug(`launch soap on :${process.env.SOAP_URL}`);
    const res = await fetch(process.env.SOAP_URL!, {
       method: "POST",
       headers: {
@@ -33,11 +34,14 @@ export const getSoapAgentAbsencePeriodsList = async function () {
    });
 
    const xml = await res.text();
-   console.table(xml)
    console.timeEnd("SOAP request duration");
 
-   if (typeof xml != 'string' || xml.length < 1)
-      throw new Error(`soap request returned non string or empty string instead of absences`)
+   const faultMatch = xml.match(/<faultstring>(.*?)<\/faultstring>/);
+   if (faultMatch)
+      throw new Error(`kelio error response: ${faultMatch[1]}`);
+
+   if (!xml.includes('</ns1:exportedAbsenceFiles>'))
+      throw new Error('kelio responded with wrong format, missing "</ns1:exportedAbsenceFiles>"');
 
    return (xml)
 }
