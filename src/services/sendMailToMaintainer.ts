@@ -11,7 +11,7 @@ export const sendMailToMaintainer = async ({ subject, content }: simplifiedMailP
    const result = await brevo.transactionalEmails.sendTransacEmail({
       subject: subject,
       textContent: content,
-      sender: { name: "Sender", email: "mabel@example.org" },
+      sender: { name: "Kelio container who need his own name", email: "noreply@example.org" },
       to: [{ email: process.env.MAINTAINER_EMAIL! }]
    });
 

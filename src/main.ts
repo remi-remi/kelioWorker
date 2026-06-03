@@ -9,7 +9,7 @@ const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
    try {
       await triggerUpdateOfAllAgentAbsences()
    } catch (error) {
-      sendMailToMaintainer({ subject: 'test', content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}` })
+      sendMailToMaintainer({ subject: 'something failed running "triggerUpdateOfAllAgentAbsences"', content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}` })
    }
 }
 
