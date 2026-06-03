@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
-// import { dirname } from 'node:path';
-// import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// const EXEC_PATH = dirname(fileURLToPath(import.meta.url));
+const EXEC_PATH = dirname(fileURLToPath(import.meta.url));
 
-const ENVIRONMENT_PATH = `@/../.env`
-
+const ENVIRONMENT_PATH = `${EXEC_PATH}/../../.env`
 console.log(`reading ENVIRONMENT_PATH: ${ENVIRONMENT_PATH}`)
 
 dotenv.config({ path: ENVIRONMENT_PATH });
