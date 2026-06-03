@@ -47,6 +47,6 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
       throw new Error(`DB request failed, tryed to truncate then insert error: ${errorToString(e)}`)
    }
 
-   for (const abs of validatedOject)
-      logger.verbose(`${abs.employeeSurname} ${abs.employeeFirstName} est absent du ${abs.startDate} au ${abs.endDate}`)
+   for (const abs of validatedObjectListDto)
+      logger.verbose(`${abs.lastName} ${abs.firstName} est absent du ${abs.startDate} au ${abs.endDate}`)
 }
