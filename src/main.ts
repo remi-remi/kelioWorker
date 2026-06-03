@@ -10,6 +10,7 @@ const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
    try {
       await triggerUpdateOfAllAgentAbsences()
    } catch (error) {
+      console.error("error should display here :")
       sendMailToMaintainer({ subject: 'something failed running "triggerUpdateOfAllAgentAbsences"', content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}` })
       logger.error(`triggerUpdateOfAllAgentAbsences failed:`, error)
    }

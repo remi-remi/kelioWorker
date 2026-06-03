@@ -20,9 +20,8 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
       throw new Error(`failed to get Xml: ${errorToString(error)}`)
    }
 
-   console.log(xmlWithPrefix)
    xml = removeColonPrefixFromXmlString(xmlWithPrefix)
-   console.log(xml)
+
    const data = parseAbsenceFileFromXml(xml)
    if (data.length < 1)
       logger.warn('no absence files at all')
@@ -44,7 +43,8 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
       await truncateAgentAbsenceFileQuery()
       await insertAgentAbsenceFileQuery(validatedObjectListDto)
    } catch (e) {
-      throw new Error(`DB request failed, tryed to truncate then insert e: ${errorToString(e)}`)
+      logger.error(`error during insert/truncate :`, e)
+      throw new Error(`DB request failed, tryed to truncate then insert error: ${errorToString(e)}`)
    }
 
    for (const abs of validatedOject)
