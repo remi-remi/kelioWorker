@@ -4,12 +4,14 @@ import '@/utils/env.js'
 import { errorToString } from './lib/errorToString.js'
 import { sendMailToMaintainer } from './services/sendMailToMaintainer.js'
 import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences.js'
+import { logger } from './lib/logger.js'
 
 const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
    try {
       await triggerUpdateOfAllAgentAbsences()
    } catch (error) {
       sendMailToMaintainer({ subject: 'something failed running "triggerUpdateOfAllAgentAbsences"', content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}` })
+      logger.error(`triggerUpdateOfAllAgentAbsences failed:`, error)
    }
 }
 
