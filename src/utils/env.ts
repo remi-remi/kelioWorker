@@ -1,11 +1,12 @@
 import dotenv from 'dotenv';
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+// import { dirname } from 'node:path';
+// import { fileURLToPath } from 'node:url';
 
-const EXEC_PATH = dirname(fileURLToPath(import.meta.url));
+// const EXEC_PATH = dirname(fileURLToPath(import.meta.url));
 
-const ENVIRONMENT_PATH = `${EXEC_PATH}/../../../ENVIRONMENT/.env.kelioWorker`
-console.log(`ENVIRONMENT_PATH: ${ENVIRONMENT_PATH}`)
+const ENVIRONMENT_PATH = `@/../.env`
+
+console.log(`reading ENVIRONMENT_PATH: ${ENVIRONMENT_PATH}`)
 
 dotenv.config({ path: ENVIRONMENT_PATH });
 
@@ -30,6 +31,8 @@ requiredEnvVars.forEach((envVar) => {
       allEnvVarsSet = false;
    }
 });
+
+console.log('all environment variable required in env.ts checked')
 
 if (!allEnvVarsSet) process.exit(1);
 

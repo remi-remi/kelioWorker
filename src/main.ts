@@ -1,11 +1,9 @@
 import cron from 'node-cron'
-import { configDotenv } from 'dotenv'
 import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences'
 import { sendMailToMaintainer } from './services/sendMailToMaintainer'
 import { errorToString } from './lib/errorToString'
 
-
-configDotenv({ path: './.env' })
+import '@/utils/env'
 
 const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
    try {
