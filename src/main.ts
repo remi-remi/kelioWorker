@@ -15,6 +15,8 @@ const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
 
 export const kelioPluginSheduler = async () => {
 
+   triggerUpdateOfAllAgentAbsencesHandler()
+
    console.log("node cron schedule now")
    cron.schedule('0 * * * *', () => {
       const now = new Date();
