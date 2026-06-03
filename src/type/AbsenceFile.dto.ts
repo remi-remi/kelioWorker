@@ -1,5 +1,6 @@
 import { Type, Static } from 'typebox'
 import { AbsenceFile } from './AbsenceFile.js'
+import { decode } from "html-entities"
 
 export const AbsenceFileDtoSchema = Type.Object({
    id: Type.Number(),
@@ -12,8 +13,8 @@ export const AbsenceFileDtoSchema = Type.Object({
    startDate: Type.String({ format: 'date' }),
    totalInDays: Type.Optional(Type.Number()),
    totalInHours: Type.Optional(Type.Number()), // may get his use later, to know if this absence is significent 
-   employeeFirstName: Type.String(),
-   employeeSurname: Type.String(),
+   firstName: Type.String(),
+   lastName: Type.String(),
    employeeKey: Type.Number(),
 })
 
@@ -30,7 +31,7 @@ export const toAbsenceFileDto = (absenceFile: AbsenceFile): AbsenceFileDto => ({
    startDate: absenceFile.startDate,
    totalInDays: absenceFile.totalInDays,
    totalInHours: absenceFile.totalInHours,
-   employeeFirstName: absenceFile.employeeFirstName,
-   employeeSurname: absenceFile.employeeSurname,
+   firstName: decode(absenceFile.employeeFirstName),
+   lastName: decode(absenceFile.employeeSurname),
    employeeKey: absenceFile.employeeKey,
 })
