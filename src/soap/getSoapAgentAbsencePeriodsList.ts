@@ -13,7 +13,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
                <ech:populationMode>0</ech:populationMode>
                <ech:limitedToAPeriod>false</ech:limitedToAPeriod>
                <ech:dateMode>1</ech:dateMode>
-               <ech:startOffset>'windown 11 in action'</ech:startOffset>
+               <ech:startOffset>0</ech:startOffset>
                <ech:endOffset>${OFFSET_RANGE}</ech:endOffset>
             </ech:AskedAbsence>
          </ech:exportFilter>
