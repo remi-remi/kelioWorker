@@ -7,24 +7,24 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ech="http://echange.service.open.bodet.com">
    <soapenv:Header/>
    <soapenv:Body>
-      <ech:exportAbsenceFilesList>
+      <ech:exportAbsenceRequestsList>
          <ech:exportFilter>
-            <ech:AskedAbsence>
+            <ech:AbsenceRequestFilter>
                <ech:populationMode>0</ech:populationMode>
                <ech:limitedToAPeriod>false</ech:limitedToAPeriod>
                <ech:dateMode>1</ech:dateMode>
                <ech:startOffset>0</ech:startOffset>
                <ech:endOffset>${OFFSET_RANGE}</ech:endOffset>
-            </ech:AskedAbsence>
+            </ech:AbsenceRequestFilter>
          </ech:exportFilter>
-      </ech:exportAbsenceFilesList>
+      </ech:exportAbsenceRequestsList>
    </soapenv:Body>
 </soapenv:Envelope>`;
 
-export const getSoapAgentAbsencePeriodsList = async function () {
+export const getSoapAgentAbsenceRequestsList = async function () {
    console.time("SOAP request duration");
-   logger.debug(`launch soap on :${process.env.SOAP_URL}/AbsenceFileService`);
-   const res = await fetch(process.env.SOAP_URL!, {
+   logger.debug(`launch soap on :${process.env.SOAP_URL}`);
+   const res = await fetch(`${process.env.SOAP_URL!}/AbsenceRequestService`, {
       method: "POST",
       headers: {
          "Content-Type": "text/xml;charset=UTF-8",
@@ -40,11 +40,8 @@ export const getSoapAgentAbsencePeriodsList = async function () {
    if (faultMatch)
       throw new Error(`kelio error response: ${faultMatch[1]}`);
 
-   if (!xml.includes('</ns1:exportedAbsenceFiles>')) {
-      logger.debug('missing </ns1:exportedAbsenceFiles> in xml :')
-      logger.debug(xml)
-      throw new Error('kelio responded with wrong format, missing "</ns1:exportedAbsenceFiles>"');
-   }
+   // if (!xml.includes('</ns1:exportAbsenceRequestsList>'))
+   //    throw new Error('kelio responded with wrong format, missing "</ns1:exportAbsenceRequestsList>"');
 
    return (xml)
 }

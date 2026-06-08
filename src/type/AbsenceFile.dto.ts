@@ -1,6 +1,7 @@
 import { Type, Static } from 'typebox'
 import { AbsenceFile } from './AbsenceFile.js'
 import { decode } from "html-entities"
+import type { AbsenceRequest } from './AbsenceRequest.js'
 
 export const AbsenceFileDtoSchema = Type.Object({
    id: Type.Number(),
@@ -20,18 +21,19 @@ export const AbsenceFileDtoSchema = Type.Object({
 
 export type AbsenceFileDto = Static<typeof AbsenceFileDtoSchema>
 
-export const toAbsenceFileDto = (absenceFile: AbsenceFile): AbsenceFileDto => ({
-   id: absenceFile.absenceFileKey,
-   absenceTypeAbbreviation: absenceFile.absenceTypeAbbreviation,
-   creationDate: absenceFile.creationDate,
-   endDate: absenceFile.endDate,
-   startInTheMorning: absenceFile.startInTheMorning,
-   endingTheAfternoon: absenceFile.endingTheAfternoon,
-   existRelatedDocument: absenceFile.existRelatedDocument,
-   startDate: absenceFile.startDate,
-   totalInDays: absenceFile.totalInDays,
-   totalInHours: absenceFile.totalInHours,
-   firstName: decode(absenceFile.employeeFirstName),
-   lastName: decode(absenceFile.employeeSurname),
-   employeeKey: absenceFile.employeeKey,
+export const toAbsenceFileDto = (absence: AbsenceRequest | AbsenceFile): AbsenceFileDto => ({
+   id: 'absenceRequestKey' in absence ? absence.absenceRequestKey : absence.absenceFileKey,
+   absenceTypeAbbreviation: absence.absenceTypeAbbreviation,
+   creationDate: absence.creationDate,
+   endDate: absence.endDate,
+   startInTheMorning: absence.startInTheMorning,
+   endingTheAfternoon: absence.endingTheAfternoon,
+   existRelatedDocument: 'existRelatedDocument' in absence ? absence.existRelatedDocument : false,
+   startDate: absence.startDate,
+   totalInDays: absence.totalInDays,
+   totalInHours: absence.totalInHours,
+   firstName: decode(absence.employeeFirstName),
+   lastName: decode(absence.employeeSurname),
+   employeeKey: absence.employeeKey,
 })
+

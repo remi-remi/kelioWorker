@@ -1,7 +1,8 @@
-export const parseAbsenceFileFromXml = (xml: string) => {
+export const extractXmlElementsByTag = (xml: string, tag: string) => {
    const periods: {}[] = []
 
-   const periodRegex = /<AbsenceFile>([\s\S]*?)<\/AbsenceFile>/g
+   const periodRegex = new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`, 'g')
+
    let periodMatch: RegExpExecArray | null
 
    while ((periodMatch = periodRegex.exec(xml)) !== null) {

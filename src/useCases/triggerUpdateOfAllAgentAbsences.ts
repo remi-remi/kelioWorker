@@ -3,7 +3,7 @@ import { truncateAgentAbsenceFileQuery } from "@/db/truncateAgentAbsenceFileQuer
 import { errorToString } from "@/lib/errorToString.js"
 import { logger } from "@/lib/logger.js"
 import { removeColonPrefixFromXmlString } from "@/lib/removeColonPrefixFromXmlString.js"
-import { parseAbsenceFileFromXml } from "@/services/parseAbsenceFileFromXml.js"
+import { extractXmlElementsByTag } from "@/services/extractXmlElementsByTag.js"
 import { rejectListElementByShema } from "@/services/rejectListElementByShema.js"
 import { getSoapAgentAbsencePeriodsList } from "@/soap/getSoapAgentAbsencePeriodsList.js"
 import { toAbsenceFileDto } from "@/type/AbsenceFile.dto.js"
@@ -22,7 +22,7 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
 
    xml = removeColonPrefixFromXmlString(xmlWithPrefix)
 
-   const data = parseAbsenceFileFromXml(xml)
+   const data = extractXmlElementsByTag(xml, 'AbsenceFile')
    if (data.length < 1)
       logger.warn('no absence files at all')
 
@@ -39,9 +39,11 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
 
    const validatedObjectListDto = validatedOject.map((o) => (toAbsenceFileDto(o)))
 
+   logger.info(`${validatedOject.length} requétes`)
+
    try {
-      await truncateAgentAbsenceFileQuery()
-      await insertAgentAbsenceFileQuery(validatedObjectListDto)
+      // await truncateAgentAbsenceFileQuery()
+      // await insertAgentAbsenceFileQuery(validatedObjectListDto)
    } catch (e) {
       logger.error(`error during insert/truncate :`, e)
       throw new Error(`DB request failed, tryed to truncate then insert error: ${errorToString(e)}`)
