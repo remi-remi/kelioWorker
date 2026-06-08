@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger.js';
-import { TObject, Static } from 'typebox';
+import { TObject, Static, TUnion } from 'typebox';
 import { TLocalizedValidationError } from 'typebox/error';
 import { Value } from 'typebox/value';
 
@@ -7,7 +7,7 @@ type RejectedObjectWithCause = { obj: unknown; error: TLocalizedValidationError[
 
 export const rejectListElementByShema = <S extends TObject>(
    list: unknown[],
-   schema: S
+   schema: S | TUnion<S[]>,
 ): {
    validatedOject: Static<S>[],
    rejectedObjectWithCause: RejectedObjectWithCause[],

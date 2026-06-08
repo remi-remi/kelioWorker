@@ -11,6 +11,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
          <ech:exportFilter>
             <ech:AbsenceRequestFilter>
                <ech:populationMode>0</ech:populationMode>
+               <ech:requestState>3</ech:requestState>
                <ech:limitedToAPeriod>false</ech:limitedToAPeriod>
                <ech:dateMode>1</ech:dateMode>
                <ech:startOffset>0</ech:startOffset>
@@ -23,7 +24,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 
 export const getSoapAgentAbsenceRequestsList = async function () {
    console.time("SOAP request duration");
-   logger.debug(`launch soap on :${process.env.SOAP_URL}`);
+   logger.debug(`launch soap on :${process.env.SOAP_URL}/AbsenceRequestService`);
    const res = await fetch(`${process.env.SOAP_URL!}/AbsenceRequestService`, {
       method: "POST",
       headers: {

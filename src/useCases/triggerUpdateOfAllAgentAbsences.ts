@@ -6,49 +6,67 @@ import { removeColonPrefixFromXmlString } from "@/lib/removeColonPrefixFromXmlSt
 import { extractXmlElementsByTag } from "@/services/extractXmlElementsByTag.js"
 import { rejectListElementByShema } from "@/services/rejectListElementByShema.js"
 import { getSoapAgentAbsencePeriodsList } from "@/soap/getSoapAgentAbsencePeriodsList.js"
+import { getSoapAgentAbsenceRequestsList } from "@/soap/getSoapAgentAbsenceRequestsList.js"
 import { toAbsenceFileDto } from "@/type/AbsenceFile.dto.js"
 import { AbsenceFileSchema } from "@/type/AbsenceFile.js"
+import { AbsenceRequestShema } from "@/type/AbsenceRequest.js"
+import Type from "typebox"
 
-let xmlWithPrefix: string
-let xml: string
+let xmlAbsenceWithPrefix: string
+let xmlRequestWithPrefix: string
+let absenceXml: string
+let requestXml: string
 
 export const triggerUpdateOfAllAgentAbsences = async () => {
 
    try {
-      xmlWithPrefix = await getSoapAgentAbsencePeriodsList()
+      xmlAbsenceWithPrefix = await getSoapAgentAbsencePeriodsList()
+      xmlRequestWithPrefix = await getSoapAgentAbsenceRequestsList()
    } catch (error) {
       throw new Error(`failed to get Xml: ${errorToString(error)}`)
    }
 
-   xml = removeColonPrefixFromXmlString(xmlWithPrefix)
+   absenceXml = removeColonPrefixFromXmlString(xmlAbsenceWithPrefix)
+   requestXml = removeColonPrefixFromXmlString(xmlRequestWithPrefix)
 
-   const data = extractXmlElementsByTag(xml, 'AbsenceFile')
-   if (data.length < 1)
-      logger.warn('no absence files at all')
+   const absenceData = extractXmlElementsByTag(absenceXml, 'AbsenceFile')
+   if (absenceData.length < 1)
+      logger.warn(`no absence files at all, absenceXml: ${absenceXml}`)
 
-   const { validatedOject, rejectedObjectWithCause } = rejectListElementByShema(data, AbsenceFileSchema)
+   const requestData = extractXmlElementsByTag(requestXml, 'AbsenceRequest')
+   if (requestData.length < 1)
+      logger.warn(`no request files at all, requestXml: ${requestXml}`)
 
+   if (requestData.length < 1 && absenceData.length < 1) return;
 
-   if (rejectedObjectWithCause.length > 0) {
+   const absenceAndRequestData = [...absenceData, ...requestData]
+   const {
+      validatedOject: validAbsenceAndRequest,
+      rejectedObjectWithCause: rejectedAbsenceAndRequestWithCause
+   } = rejectListElementByShema(absenceAndRequestData, Type.Union([AbsenceFileSchema, AbsenceRequestShema]));
+
+   if (rejectedAbsenceAndRequestWithCause.length > 0) {
       logger.warn('rejectedObjectWithCause : ')
-      logger.warn(rejectedObjectWithCause)
+      rejectedAbsenceAndRequestWithCause.map((o) => {
+         logger.warn(o)
+         logger.warn(o.error)
+         logger.warn('---')
+      })
    }
 
-   logger.debug('validatedOject: ')
-   logger.debug(validatedOject)
+   const AbsenceAndRequestDto = validAbsenceAndRequest.map((o) => (toAbsenceFileDto(o)))
 
-   const validatedObjectListDto = validatedOject.map((o) => (toAbsenceFileDto(o)))
-
-   logger.info(`${validatedOject.length} requétes`)
+   logger.info(`${AbsenceAndRequestDto.length} requétes`)
 
    try {
-      // await truncateAgentAbsenceFileQuery()
-      // await insertAgentAbsenceFileQuery(validatedObjectListDto)
+      await truncateAgentAbsenceFileQuery()
+      await insertAgentAbsenceFileQuery(AbsenceAndRequestDto)
    } catch (e) {
       logger.error(`error during insert/truncate :`, e)
       throw new Error(`DB request failed, tryed to truncate then insert error: ${errorToString(e)}`)
    }
 
-   for (const abs of validatedObjectListDto)
-      logger.verbose(`${abs.lastName} ${abs.firstName} est absent du ${abs.startDate} au ${abs.endDate}`)
+   for (const abs of AbsenceAndRequestDto) {
+      logger.verbose(`${abs.lastName} ${abs.firstName} ${abs.pending == true ? 'WANT to be absent' : 'wont be here'} from ${abs.startDate} to ${abs.endDate}`)
+   }
 }

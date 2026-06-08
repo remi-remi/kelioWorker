@@ -24,7 +24,7 @@ const soapBody = `<?xml version="1.0" encoding="utf-8"?>
 export const getSoapAgentAbsencePeriodsList = async function () {
    console.time("SOAP request duration");
    logger.debug(`launch soap on :${process.env.SOAP_URL}/AbsenceFileService`);
-   const res = await fetch(process.env.SOAP_URL!, {
+   const res = await fetch(`${process.env.SOAP_URL}/AbsenceFileService`, {
       method: "POST",
       headers: {
          "Content-Type": "text/xml;charset=UTF-8",

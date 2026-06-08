@@ -1,6 +1,6 @@
 import { Type, Static } from 'typebox'
 
-export const AbsenceRequest = Type.Object({
+export const AbsenceRequestShema = Type.Object({
    absenceRequestKey: Type.Number(),
    absenceTypeAbbreviation: Type.String(),
    absenceTypeDescription: Type.String(),
@@ -23,5 +23,5 @@ export const AbsenceRequest = Type.Object({
    employeeSurname: Type.String(),
 })
 
-export type AbsenceRequest = Static<typeof AbsenceRequest>
+export type AbsenceRequest = Static<typeof AbsenceRequestShema>
 

@@ -4,7 +4,8 @@ import { decode } from "html-entities"
 import type { AbsenceRequest } from './AbsenceRequest.js'
 
 export const AbsenceFileDtoSchema = Type.Object({
-   id: Type.Number(),
+   originalId: Type.Number(),
+   pending: Type.Boolean(),
    absenceTypeAbbreviation: Type.String(),
    creationDate: Type.String({ format: 'date' }),
    endDate: Type.String({ format: 'date' }),
@@ -22,7 +23,8 @@ export const AbsenceFileDtoSchema = Type.Object({
 export type AbsenceFileDto = Static<typeof AbsenceFileDtoSchema>
 
 export const toAbsenceFileDto = (absence: AbsenceRequest | AbsenceFile): AbsenceFileDto => ({
-   id: 'absenceRequestKey' in absence ? absence.absenceRequestKey : absence.absenceFileKey,
+   originalId: 'absenceRequestKey' in absence ? absence.absenceRequestKey : absence.absenceFileKey,
+   pending: 'absenceRequestKey' in absence ? true : false,
    absenceTypeAbbreviation: absence.absenceTypeAbbreviation,
    creationDate: absence.creationDate,
    endDate: absence.endDate,
