@@ -6,17 +6,17 @@ import { sendMailToMaintainer } from './services/sendMailToMaintainer.js'
 import { triggerUpdateOfAllAgentAbsences } from './useCases/triggerUpdateOfAllAgentAbsences.js'
 import { logger } from './lib/logger.js'
 
-const triggerUpdateOfAllAgentAbsencesHandler = async () => { // feel stupid
-   try {
-      await triggerUpdateOfAllAgentAbsences()
-   } catch (error) {
-      console.error("error should display here :")
-      sendMailToMaintainer({ subject: 'something failed running "triggerUpdateOfAllAgentAbsences"', content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}` })
+const triggerUpdateOfAllAgentAbsencesHandler = () => {
+   triggerUpdateOfAllAgentAbsences().catch((error) => {
+      sendMailToMaintainer({
+         subject: 'something failed running "triggerUpdateOfAllAgentAbsences"',
+         content: `triggerUpdateOfAllAgentAbsences failed at ${Date.now()} ${errorToString(error)}`
+      })
       logger.error(`triggerUpdateOfAllAgentAbsences failed:`, error)
-   }
+   })
 }
 
-export const kelioPluginSheduler = async () => {
+export const kelioPluginSheduler = () => {
 
    triggerUpdateOfAllAgentAbsencesHandler()
 
@@ -27,9 +27,9 @@ export const kelioPluginSheduler = async () => {
       const minutes = String(now.getMinutes()).padStart(2, '0');
       triggerUpdateOfAllAgentAbsencesHandler()
       console.log(`(k) > ${hours}:${minutes} triggerUpdateOfAllAgentAbsences() `);
-
    })
 
 }
+
 kelioPluginSheduler()
 

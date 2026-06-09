@@ -10,7 +10,7 @@ type simplifiedMailProps = {
 export const sendMailToMaintainer = async ({ subject, content }: simplifiedMailProps) => {
    const result = await brevo.transactionalEmails.sendTransacEmail({
       subject: subject,
-      textContent: content,
+      textContent: content.replace(/</g, '&lt;').replace(/>/g, '&gt;'),
       sender: { name: "Kelio container who need his own name", email: "noreply@example.org" },
       to: [{ email: process.env.MAINTAINER_EMAIL! }]
    });

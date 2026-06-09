@@ -23,7 +23,7 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
       xmlAbsenceWithPrefix = await getSoapAgentAbsencePeriodsList()
       xmlRequestWithPrefix = await getSoapAgentAbsenceRequestsList()
    } catch (error) {
-      throw new Error(`failed to get Xml: ${errorToString(error)}`)
+      throw new Error(`failed to get Xml error: ${errorToString(error)}`)
    }
 
    absenceXml = removeColonPrefixFromXmlString(xmlAbsenceWithPrefix)
@@ -56,7 +56,8 @@ export const triggerUpdateOfAllAgentAbsences = async () => {
 
    const AbsenceAndRequestDto = validAbsenceAndRequest.map((o) => (toAbsenceFileDto(o)))
 
-   logger.info(`${AbsenceAndRequestDto.length} requétes`)
+   logger.info(`absenceData (unsafe) ${absenceData.length}, requestData (unsafe) ${requestData.length},${AbsenceAndRequestDto.length} total`)
+
 
    try {
       await truncateAgentAbsenceFileQuery()
