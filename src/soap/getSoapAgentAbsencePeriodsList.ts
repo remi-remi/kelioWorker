@@ -41,8 +41,8 @@ export const getSoapAgentAbsencePeriodsList = async function () {
       throw new Error(`kelio error response: ${faultMatch[1]}`);
 
    if (!xml.includes('</ns1:exportedAbsenceFiles>')) {
-      logger.debug('missing </ns1:exportedAbsenceFiles> in xml :')
-      logger.debug(xml)
+      logger.error('missing </ns1:exportedAbsenceFiles> in xml :')
+      logger.error(xml)
       throw new Error('kelio responded with wrong format, missing "</ns1:exportedAbsenceFiles>"');
    }
 
