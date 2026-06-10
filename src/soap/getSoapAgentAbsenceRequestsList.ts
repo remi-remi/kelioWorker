@@ -41,8 +41,11 @@ export const getSoapAgentAbsenceRequestsList = async function () {
    if (faultMatch)
       throw new Error(`kelio error response: ${faultMatch[1]}`);
 
-   if (!xml.includes('</ns1:exportAbsenceRequestsList>'))
+   if (!xml.includes('</ns1:exportAbsenceRequestsList>')) {
+      logger.debug('missing </ns1:exportAbsenceRequestsList> in xml :')
+      logger.debug(xml)
       throw new Error('kelio responded with wrong format, missing "</ns1:exportAbsenceRequestsList>"');
+   }
 
    return (xml)
 }
