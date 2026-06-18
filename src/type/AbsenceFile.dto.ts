@@ -2,6 +2,7 @@ import { Type, Static } from 'typebox'
 import { AbsenceFile } from './AbsenceFile.js'
 import { decode } from "html-entities"
 import type { AbsenceRequest } from './AbsenceRequest.js'
+import { removeAccents } from '@/lib/removeAccents.js'
 
 export const AbsenceFileDtoSchema = Type.Object({
    originalId: Type.Number(),
@@ -34,8 +35,8 @@ export const toAbsenceFileDto = (absence: AbsenceRequest | AbsenceFile): Absence
    startDate: absence.startDate,
    totalInDays: absence.totalInDays,
    totalInHours: absence.totalInHours,
-   firstName: decode(absence.employeeFirstName),
-   lastName: decode(absence.employeeSurname),
+   firstName: removeAccents(decode(absence.employeeFirstName)),
+   lastName: removeAccents(decode(absence.employeeSurname)),
    employeeKey: absence.employeeKey,
 })
 
