@@ -46,5 +46,6 @@ export const getSoapAgentAbsencePeriodsList = async function () {
       throw new Error('kelio responded with wrong format, missing "</ns1:exportedAbsenceFiles>"');
    }
 
+   console.log(xml)
    return (xml)
 }
